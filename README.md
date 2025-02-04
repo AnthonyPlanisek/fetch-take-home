@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
 
+The project is hosted here: https://anthonyplanisek.github.io/fetch-take-home
+
 # Requirements
 
 ## Login Page
