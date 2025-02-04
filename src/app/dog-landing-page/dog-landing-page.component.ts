@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FetchServiceService } from '../fetch-service.service'
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -46,11 +46,6 @@ export class DogLandingPageComponent implements OnInit {
     this.searchDogs();
   }
 
-  clearSelection(): void {
-    this.selectedBreed = null;
-    this.detailedDogs = [];
-  }
-
   searchDogs(): void {
     if (!this.selectedBreed) return;
 
@@ -68,6 +63,15 @@ export class DogLandingPageComponent implements OnInit {
       },
       (error) => console.error('Error fetching dogs:', error)
     );
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event): void {
+    const inputElement = document.querySelector('.single-select-input input');
+    if (inputElement && !inputElement.contains(event.target as Node)) {
+      this.showDropdown = false;
+      this.filteredBreeds = [...this.allBreeds];
+    }
   }
 
 }

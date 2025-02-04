@@ -15,12 +15,6 @@
     </div>
   </div>
 
-  <div class="selected-breed" *ngIf="selectedBreed">
-    <span>{{ selectedBreed }}</span>
-    <button class="remove-breed" (click)="clearSelection()">X</button>
-  </div>
-</div>
-
 <!-- Displays dogs from search -->
 <div class="dogs-list" *ngIf="detailedDogs.length > 0">
   <h3>Matching Dogs:</h3>
