@@ -87,3 +87,13 @@ li {
 li:hover {
   background-color: #f0f0f0;
 }
+
+.logout-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pawprint-icon {
+  font-size: 24px;
+}

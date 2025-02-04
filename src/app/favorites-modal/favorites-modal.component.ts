@@ -20,7 +20,6 @@ export class FavoritesModalComponent {
     private dialog: MatDialog
   ) {
     this.favoriteDogs = data.favorites;
-    console.log(data.favorites)
   }
 
   findMatch() {

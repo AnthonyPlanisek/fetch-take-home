@@ -53,5 +53,9 @@ export class FetchServiceService {
   getLocations(zipCodes: number[]): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/locations`, zipCodes, { withCredentials: true });
   }
+
+  logout() {
+    return this.http.post(`${this.apiUrl}/auth/logout`, {}, { withCredentials: true });
+  }
   
 }

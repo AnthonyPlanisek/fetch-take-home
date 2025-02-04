@@ -24,6 +24,11 @@
     <button *ngIf="detailedDogs.length > 0" mat-raised-button (click)="toggleSortOrder()">
       Sort {{ isAscending ? 'Descending' : 'Ascending' }}
     </button>
+
+    <div class="logout-container">
+      <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+      <mat-icon class="pawprint-icon">pets</mat-icon>
+    </div>
   </header>
 
   <div *ngIf="detailedDogs.length > 0" class="dogs-list">

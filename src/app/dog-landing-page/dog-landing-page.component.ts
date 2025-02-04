@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FetchServiceService } from '../fetch-service.service'
 import { MatDialog } from '@angular/material/dialog';
 import { FavoritesModalComponent } from '../favorites-modal/favorites-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dog-landing-page',
@@ -18,7 +19,11 @@ export class DogLandingPageComponent implements OnInit {
   isAscending: boolean = true;
   favoriteDogs: any[] = [];
 
-  constructor(private apiService: FetchServiceService, private dialog: MatDialog) {
+  constructor(
+    private apiService: FetchServiceService, 
+    private dialog: MatDialog,
+    private router: Router
+  ) {
     this.loadFavorites();
   }
 
@@ -176,6 +181,17 @@ export class DogLandingPageComponent implements OnInit {
     this.dialog.open(FavoritesModalComponent, {
       data: { favorites: this.favoriteDogs },
     });
+  }
+
+  logout(): void {
+    this.apiService.logout().subscribe({
+      next: () => {
+        
+        sessionStorage.clear();
+      },
+      error: (err) => console.error('Logout failed:', err)
+    });
+    this.router.navigateByUrl('')
   }
 
 }
