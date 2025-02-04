@@ -40,7 +40,6 @@ export class FetchServiceService {
   }
 
   getDetailedDogs(dogs: any[]): Observable<any[]> {
-    console.log(dogs)
     return this.http.post<any[]>(`${this.apiUrl}/dogs`, dogs, { withCredentials: true });
   }
 

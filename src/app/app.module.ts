@@ -11,6 +11,12 @@ import { FavoritesModalComponent } from './favorites-modal/favorites-modal.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatchModalComponent } from './match-modal/match-modal.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +32,11 @@ import { MatchModalComponent } from './match-modal/match-modal.component';
     ReactiveFormsModule,
     AppRoutingModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
     BrowserAnimationsModule
   ],
   providers: [],

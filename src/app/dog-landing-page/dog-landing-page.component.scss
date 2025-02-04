@@ -1,77 +1,88 @@
-.multi-select-container {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-  }
-  
-  .multi-select-input {
-    position: relative;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .dropdown {
-    position: absolute;
-    top: 35px;
-    width: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
-    max-height: 150px;
-    overflow-y: auto;
-    z-index: 10;
-    border-radius: 4px;
-  }
-  
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  li {
-    padding: 8px;
-    cursor: pointer;
-  }
-  
-  li:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .selected-breeds {
-    margin-top: 10px;
-  }
-  
-  .selected-breeds ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .selected-breeds li {
-    background-color: #e0e0e0;
-    padding: 5px 10px;
-    margin: 5px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .selected-breeds .remove-breed {
-    background: none;
-    border: none;
-    color: red;
-    font-weight: bold;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  .selected-breeds .remove-breed:hover {
-    color: darkred;
-  }
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 16px;
+}
+
+.search-field {
+  flex: 1;
+  margin-right: 16px;
+}
+
+button {
+  margin-left: 16px;
+}
+
+.dogs-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+.dogs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  justify-items: center;
+}
+
+.dog-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+}
+
+.dog-details {
+  flex: 1;
+  margin-right: 16px;
+}
+
+mat-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 400px;
+}
+
+mat-card img {
+  max-height: 200px;
+  object-fit: cover;
+}
+
+mat-icon.favorited {
+  color: gold;
+}
+
+h3 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+ul {
+  padding-left: 16px;
+}
+
+li {
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}

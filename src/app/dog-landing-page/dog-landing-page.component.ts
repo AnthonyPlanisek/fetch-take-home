@@ -61,7 +61,6 @@ export class DogLandingPageComponent implements OnInit {
         this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
             this.detailedDogs = this.sortDogs(detailedDogs, this.isAscending)
-            console.log(detailedDogs)
           },
           (error) => console.error('Error fetching detailed dogs:', error)
         );
@@ -87,7 +86,7 @@ export class DogLandingPageComponent implements OnInit {
 
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event): void {
-    const inputElement = document.querySelector('.single-select-input input');
+    const inputElement = document.querySelector('.landing-page input');
     if (inputElement && !inputElement.contains(event.target as Node)) {
       this.showDropdown = false;
       this.filteredBreeds = [...this.allBreeds];

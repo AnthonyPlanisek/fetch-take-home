@@ -1,12 +1,20 @@
-<div>
+<div class="login-container">
+  <mat-card class="login-card">
     <h2>Login</h2>
     <form (ngSubmit)="onSubmit()">
-      <label for="name">Name</label>
-      <input id="name" [(ngModel)]="name" name="name" required>
-  
-      <label for="email">Email</label>
-      <input id="email" type="email" [(ngModel)]="email" name="email" required>
-  
-      <button type="submit">Submit</button>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput id="name" [(ngModel)]="name" name="name" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput id="email" type="email" [(ngModel)]="email" name="email" required>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">
+        Submit
+      </button>
     </form>
-  </div>
+  </mat-card>
+</div>

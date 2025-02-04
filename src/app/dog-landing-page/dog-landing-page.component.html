@@ -1,42 +1,41 @@
-<div class="single-select-container">
-  <div class="single-select-input">
-    <input
-      [(ngModel)]="searchTerm"
-      (ngModelChange)="filterBreeds()"
-      (focus)="showDropdown = true"
-      placeholder="Search for a breed"
-    />
-    <div *ngIf="showDropdown" class="dropdown">
-      <ul>
-        <li *ngFor="let breed of filteredBreeds" (click)="selectBreed(breed)">
-          {{ breed }}
-        </li>
-      </ul>
+<div class="landing-page">
+  <!-- Header with search bar, sort button, and favorites button -->
+  <header class="header">
+    <mat-form-field class="search-field">
+      <mat-label>Search for a breed</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterBreeds()" (focus)="showDropdown = true" placeholder="Search for a breed" />
+      <div *ngIf="showDropdown" class="dropdown">
+        <ul>
+          <li *ngFor="let breed of filteredBreeds" (click)="selectBreed(breed)">
+            {{ breed }}
+          </li>
+        </ul>
+      </div>
+    </mat-form-field>
+
+    <button mat-raised-button (click)="openFavoritesModal()">Show Favorites</button>
+
+    <button *ngIf="detailedDogs.length > 0" mat-raised-button (click)="toggleSortOrder()">
+      Sort {{ isAscending ? 'Descending' : 'Ascending' }}
+    </button>
+  </header>
+
+  <!-- Display dogs from search -->
+  <div *ngIf="detailedDogs.length > 0" class="dogs-list">
+    <h3>Matching Dogs:</h3>
+    <div class="dogs-container">
+      <mat-card *ngFor="let dog of detailedDogs" class="dog-card">
+        <div class="dog-details">
+          <h4>{{ dog.name }}</h4>
+          <p>{{ dog.breed }}</p>
+          <p>Age: {{ dog.age }}</p>
+          <p>Zip Code: {{ dog.zip_code }}</p>
+          <button mat-icon-button (click)="toggleFavorite(dog)">
+            <mat-icon [class.favorited]="isFavorite(dog)">star</mat-icon>
+          </button>
+        </div>
+        <img mat-card-image [src]="dog.img" alt="{{ dog.name }}" />
+      </mat-card>
     </div>
   </div>
-
-  <button (click)="openFavoritesModal()">Show Favorites</button>
-
-  <button *ngIf="detailedDogs.length > 0" (click)="toggleSortOrder()">
-    Sort {{ isAscending ? 'Descending' : 'Ascending' }}
-  </button>
-
-<!-- Displays dogs from search -->
-<div class="dogs-list" *ngIf="detailedDogs.length > 0">
-  <h3>Matching Dogs:</h3>
-  <ul>
-    <li *ngFor="let dog of detailedDogs">
-      <div>
-        <h4>{{ dog.name }}</h4>
-        <p>{{ dog.breed }}</p>
-        <p>Age: {{ dog.age }}</p>
-        <p>Zip Code: {{ dog.zip_code }}</p>
-        <img [src]="dog.img" alt="{{ dog.name }}" />
-        <button (click)="toggleFavorite(dog)">
-          <span [class.favorited]="isFavorite(dog)">⭐</span>
-        </button>
-      </div>
-    </li>
-  </ul>
 </div>
-
