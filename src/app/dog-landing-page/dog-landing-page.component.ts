@@ -23,12 +23,12 @@ export class DogLandingPageComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getDogBreeds().subscribe({
       next: (response: any) => {
-        // If response is a stringified array, we parse it
+        
         try {
           const breeds = Array.isArray(response) ? response : JSON.parse(response);
-          console.log('Parsed Breeds:', breeds); // Log parsed data to verify it's an array
+          console.log('Parsed Breeds:', breeds); 
           this.allBreeds = breeds;
-          this.filteredBreeds = breeds; // Initially show all breeds
+          this.filteredBreeds = breeds; 
         } catch (error) {
           console.error('Error parsing breeds response:', error);
         }
@@ -39,44 +39,43 @@ export class DogLandingPageComponent implements OnInit {
     });
   }
 
-  // Filter breeds as user types
+  
   filterBreeds(): void {
     this.filteredBreeds = this.allBreeds.filter((breed) =>
       breed.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  // Toggle dropdown visibility when input is clicked
+  
   toggleDropdown(): void {
     this.showDropdown = !this.showDropdown;
   }
 
-  // Select a breed and add to selected list
+  
   selectBreed(breed: string): void {
     if (!this.selectedBreeds.includes(breed)) {
       this.selectedBreeds.push(breed);
     }
-    this.searchTerm = ''; // Reset search term after selecting a breed
-    this.showDropdown = false; // Hide dropdown after selection
+    this.searchTerm = ''; 
+    this.showDropdown = false; 
   }
 
-  // Remove a breed from the selected list
   removeBreed(breed: string): void {
     this.selectedBreeds = this.selectedBreeds.filter((b) => b !== breed);
   }
 
-  // Trigger the search and then make the POST request with the search results
+  // Grabs IDs of dogs from search then grabs dogs from their IDs
   searchDogs(): void {
     const breedsQuery = this.selectedBreeds.join(',');
     this.apiService.searchDogs(breedsQuery).subscribe(
       (dogs) => {
-        console.log('Dogs returned from search:', dogs); // Log the search results
+        console.log('Dogs returned from search:', dogs); 
 
-        // Make the POST request with the search results
+        
         this.apiService.getDetailedDogs(dogs).subscribe(
           (detailedDogs) => {
             this.detailedDogs = detailedDogs;
-            console.log('Detailed dogs returned from POST:', this.detailedDogs); // Log the detailed dogs
+            console.log('Detailed dogs returned from POST:', this.detailedDogs);
           },
           (error) => {
             console.error('Error fetching detailed dogs:', error);

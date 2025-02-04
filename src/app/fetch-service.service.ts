@@ -3,8 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 interface DogSearchResponse {
-  resultIds: string[]; // Assuming resultIds is an array of strings
-  // Other properties from the API response can be added here if needed
+  resultIds: string[]; 
 }
 
 @Injectable({
@@ -29,7 +28,7 @@ export class FetchServiceService {
     });
   }
 
-   // Method to search for dogs based on selected breeds
+   
    searchDogs(breeds: string): Observable<any[]> {
     const params = new HttpParams().set('breeds', breeds);
     return this.http.get<DogSearchResponse>(`${this.apiUrl}/dogs/search`, {

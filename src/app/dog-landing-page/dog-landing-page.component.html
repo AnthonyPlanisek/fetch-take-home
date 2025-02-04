@@ -24,11 +24,10 @@
     </ul>
   </div>
 
-  <!-- Button to trigger search -->
   <button (click)="searchDogs()" [disabled]="selectedBreeds.length === 0">Search</button>
 </div>
 
-<!-- Display the matching dogs -->
+<!-- Shows a list of dogs from the search -->
 <div class="dogs-list" *ngIf="detailedDogs.length > 0">
   <h3>Matching Dogs:</h3>
   <ul>
