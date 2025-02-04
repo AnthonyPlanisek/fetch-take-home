@@ -1,0 +1,77 @@
+.multi-select-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  .multi-select-input {
+    position: relative;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 35px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    border-radius: 4px;
+  }
+  
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .selected-breeds {
+    margin-top: 10px;
+  }
+  
+  .selected-breeds ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .selected-breeds li {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .selected-breeds .remove-breed {
+    background: none;
+    border: none;
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .selected-breeds .remove-breed:hover {
+    color: darkred;
+  }
