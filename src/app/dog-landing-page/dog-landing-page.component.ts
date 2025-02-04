@@ -16,6 +16,7 @@ export class DogLandingPageComponent implements OnInit {
   showDropdown = false;
   searchTerm: string = '';
   detailedDogs: any[] = [];
+  isAscending: boolean = true;
 
   constructor(private apiService: FetchServiceService) {}
 
@@ -51,18 +52,31 @@ export class DogLandingPageComponent implements OnInit {
 
     this.apiService.searchDogs(this.selectedBreed).subscribe(
       (dogIds) => {
-        console.log('Dog IDs returned from search:', dogIds);
         
         this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
-            this.detailedDogs = detailedDogs;
-            console.log('Detailed dogs:', this.detailedDogs);
+            this.detailedDogs = this.sortDogs(detailedDogs, this.isAscending)
           },
           (error) => console.error('Error fetching detailed dogs:', error)
         );
       },
       (error) => console.error('Error fetching dogs:', error)
     );
+  }
+
+  
+  sortDogs(dogs: any[], ascending: boolean): any[] {
+    return dogs.sort((a, b) => {
+      return ascending 
+        ? a.name.localeCompare(b.name) 
+        : b.name.localeCompare(a.name);
+    });
+  }
+
+  
+  toggleSortOrder(): void {
+    this.isAscending = !this.isAscending;
+    this.detailedDogs = this.sortDogs(this.detailedDogs, this.isAscending);
   }
 
   @HostListener('document:click', ['$event'])
