@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, zip } from 'rxjs';
 
 interface DogSearchResponse {
   resultIds: string[]; 
@@ -48,6 +48,10 @@ export class FetchServiceService {
 
   matchDogs(favoriteDogIds: any[]): Observable<any> {
     return this.http.post<string[]>(`${this.apiUrl}/dogs/match`, favoriteDogIds, { withCredentials: true });
+  }
+
+  getLocations(zipCodes: number[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/locations`, zipCodes, { withCredentials: true });
   }
   
 }

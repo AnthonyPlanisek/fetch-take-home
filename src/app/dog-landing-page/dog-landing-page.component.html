@@ -27,14 +27,14 @@
   </header>
 
   <div *ngIf="detailedDogs.length > 0" class="dogs-list">
-    <h3>Matching Dogs:</h3>
     <div class="dogs-container">
       <mat-card *ngFor="let dog of detailedDogs" class="dog-card">
         <div class="dog-details">
           <h4>{{ dog.name }}</h4>
           <p>{{ dog.breed }}</p>
           <p>Age: {{ dog.age }}</p>
-          <p>Zip Code: {{ dog.zip_code }}</p>
+          <p *ngIf="dog.city && dog.state">{{ dog.city }}, {{ dog.state }}</p>
+          <p *ngIf="!dog.city || !dog.state">Zip Code: {{ dog.zip_code }}</p>
           <button mat-icon-button (click)="toggleFavorite(dog)">
             <mat-icon [class.favorited]="isFavorite(dog)">star</mat-icon>
           </button>

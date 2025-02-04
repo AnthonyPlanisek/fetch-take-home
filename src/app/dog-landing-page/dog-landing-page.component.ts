@@ -53,26 +53,47 @@ export class DogLandingPageComponent implements OnInit {
   searchDogs(): void {
     if (!this.selectedBreed) return;
 
-    const size = 50;
+    const size = 100;
 
     this.apiService.searchDogs(this.selectedBreed, size).subscribe(
       (dogIds) => {
-        console.log(dogIds)
         
         this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
-            console.log(detailedDogs)
             this.detailedDogs = this.sortDogs(detailedDogs, this.isAscending)
             const inputElement = document.querySelector('.landing-page input') as HTMLInputElement;
             inputElement.blur();
             this.detailedDogs = this.filterFavoritedDogs(detailedDogs);
+            const zipCodes = [...new Set(this.detailedDogs.map(dog => dog.zip_code))];
+            this.apiService.getLocations(zipCodes).subscribe(
+              (locations) => {
+                
+                const locationMap = new Map(
+                  locations
+                    .filter((loc: any) => loc) 
+                    .map((loc: { zip_code: any; }) => [loc.zip_code, loc])
+                );
+  
+                
+                this.detailedDogs = this.detailedDogs.map(dog => {
+                  const location = locationMap.get(dog.zip_code) as { city?: string; state?: string } | undefined;
+                  
+                  return {
+                    ...dog,
+                    city: location?.city ?? null, 
+                    state: location?.state ?? null 
+                  };
+                });
           },
           (error) => console.error('Error fetching detailed dogs:', error)
         );
       },
       (error) => console.error('Error fetching dogs:', error)
     );
-  }
+  },
+  (error) => console.error('Error fetching dogs:', error)
+);
+}
 
   
   sortDogs(dogs: any[], ascending: boolean): any[] {
