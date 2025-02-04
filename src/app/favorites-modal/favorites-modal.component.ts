@@ -25,11 +25,8 @@ export class FavoritesModalComponent {
 
   findMatch() {
     const favoriteDogIds = this.favoriteDogs.map(dog => dog.id);
-    console.log('list of dogs', favoriteDogIds)
     this.apiService.matchDogs(favoriteDogIds).subscribe((matchedDogId) => {
-      console.log('mathced dog id', matchedDogId)
       const matchedDog = matchedDogId.match
-      console.log('???', matchedDog)
       this.apiService.getDetailedDogs([matchedDog]).subscribe((dogDetails) => {
         this.dialog.open(MatchModalComponent, {
           data: { matchedDog: dogDetails[0] }

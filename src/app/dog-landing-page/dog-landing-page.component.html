@@ -1,9 +1,15 @@
 <div class="landing-page">
-  <!-- Header with search bar, sort button, and favorites button -->
   <header class="header">
-    <mat-form-field class="search-field">
+    <mat-form-field class="search-field" appearance="fill">
       <mat-label>Search for a breed</mat-label>
-      <input matInput [(ngModel)]="searchTerm" (ngModelChange)="filterBreeds()" (focus)="showDropdown = true" placeholder="Search for a breed" />
+      <input 
+      matInput 
+      [(ngModel)]="searchTerm" 
+      (ngModelChange)="filterBreeds()" 
+      (focus)="showDropdown = true"
+      (click)="onInputClick()"
+      placeholder="Search for a breed" 
+      />
       <div *ngIf="showDropdown" class="dropdown">
         <ul>
           <li *ngFor="let breed of filteredBreeds" (click)="selectBreed(breed)">
@@ -20,7 +26,6 @@
     </button>
   </header>
 
-  <!-- Display dogs from search -->
   <div *ngIf="detailedDogs.length > 0" class="dogs-list">
     <h3>Matching Dogs:</h3>
     <div class="dogs-container">

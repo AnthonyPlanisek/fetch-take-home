@@ -1,8 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FetchServiceService } from '../fetch-service.service'
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { FavoritesModalComponent } from '../favorites-modal/favorites-modal.component';
 
@@ -50,6 +47,7 @@ export class DogLandingPageComponent implements OnInit {
     this.searchTerm = ''; 
     this.showDropdown = false; 
     this.searchDogs();
+
   }
 
   searchDogs(): void {
@@ -61,6 +59,9 @@ export class DogLandingPageComponent implements OnInit {
         this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
             this.detailedDogs = this.sortDogs(detailedDogs, this.isAscending)
+            const inputElement = document.querySelector('.landing-page input') as HTMLInputElement;
+            inputElement.blur();
+            this.detailedDogs = this.filterFavoritedDogs(detailedDogs);
           },
           (error) => console.error('Error fetching detailed dogs:', error)
         );
@@ -87,34 +88,64 @@ export class DogLandingPageComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event): void {
     const inputElement = document.querySelector('.landing-page input');
-    if (inputElement && !inputElement.contains(event.target as Node)) {
+    const dropdownElement = document.querySelector('.landing-page .dropdown');
+    
+    if (
+      inputElement && !inputElement.contains(event.target as Node) &&
+      dropdownElement && !dropdownElement.contains(event.target as Node)
+    ) {
       this.showDropdown = false;
       this.filteredBreeds = [...this.allBreeds];
     }
   }
 
+  onInputClick(): void {
+    if (!this.showDropdown) {
+      this.showDropdown = true;
+    }
+  }
+
   loadFavorites() {
-    const storedFavorites = sessionStorage.getItem('favoriteDogs');
-    this.favoriteDogs = storedFavorites ? JSON.parse(storedFavorites) : [];
+    const accessToken = this.getCookie('fetch-access-token');
+    if (accessToken) {
+      const storedFavorites = localStorage.getItem(`favoriteDogs-${accessToken}`);
+      this.favoriteDogs = storedFavorites ? JSON.parse(storedFavorites) : [];
+    } else {
+      this.favoriteDogs = [];
+    }
+  }
+
+  getCookie(name: string): string | null {
+    const matches = document.cookie.match(new RegExp(
+      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : null;
   }
 
   isFavorite(dogId: string): boolean {
     return this.favoriteDogs.some((dog) => dog.id === dogId);
   }
-  
 
   toggleFavorite(dog: any) {
-    const dogData = { id: dog.id, name: dog.name, img: dog.img }; // Store only necessary data
-  
+    const dogData = { id: dog.id, name: dog.name, img: dog.img };
+
     if (this.isFavorite(dog.id)) {
       this.favoriteDogs = this.favoriteDogs.filter((d) => d.id !== dog.id);
     } else {
       this.favoriteDogs.push(dogData);
     }
-  
-    sessionStorage.setItem('favoriteDogs', JSON.stringify(this.favoriteDogs));
+
+    const accessToken = this.getCookie('fetch-access-token');
+    if (accessToken) {
+      localStorage.setItem(`favoriteDogs-${accessToken}`, JSON.stringify(this.favoriteDogs));
+    }
+
+    this.detailedDogs = this.filterFavoritedDogs(this.detailedDogs);
   }
-  
+
+  filterFavoritedDogs(dogs: any[]): any[] {
+    return dogs.filter((dog) => !this.isFavorite(dog.id));
+  }
 
   openFavoritesModal() {
     this.dialog.open(FavoritesModalComponent, {

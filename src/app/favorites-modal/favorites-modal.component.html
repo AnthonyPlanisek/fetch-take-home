@@ -1,12 +1,13 @@
 <div class="modal">
-    <h2>Your Favorite Dogs</h2>
-    <button mat-button (click)="findMatch()">Find Your Match</button>
+  <h2>Your Favorite Dogs</h2>
+  <button mat-raised-button (click)="findMatch()">Find Your Match</button>
 
-    <div *ngFor="let dog of favoriteDogs">
+  <div class="favorite-dogs-list">
+    <div *ngFor="let dog of favoriteDogs" class="favorite-dog-item">
       <img [src]="dog.img" [alt]="dog.name" />
       <p>{{ dog.name }}</p>
     </div>
-    <button (click)="close()">Close</button>
   </div>
 
-
+  <button mat-button (click)="close()">Close</button>
+</div>
