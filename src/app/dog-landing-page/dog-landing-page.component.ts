@@ -53,11 +53,15 @@ export class DogLandingPageComponent implements OnInit {
   searchDogs(): void {
     if (!this.selectedBreed) return;
 
-    this.apiService.searchDogs(this.selectedBreed).subscribe(
+    const size = 50;
+
+    this.apiService.searchDogs(this.selectedBreed, size).subscribe(
       (dogIds) => {
+        console.log(dogIds)
         
         this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
+            console.log(detailedDogs)
             this.detailedDogs = this.sortDogs(detailedDogs, this.isAscending)
             const inputElement = document.querySelector('.landing-page input') as HTMLInputElement;
             inputElement.blur();

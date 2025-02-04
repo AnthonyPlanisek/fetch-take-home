@@ -63,6 +63,7 @@ mat-card {
 mat-card img {
   max-height: 200px;
   object-fit: cover;
+  max-width: 250px;
 }
 
 mat-icon.favorited {

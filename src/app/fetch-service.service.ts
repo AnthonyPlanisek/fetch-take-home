@@ -29,10 +29,13 @@ export class FetchServiceService {
   }
 
    
-   searchDogs(breeds: string): Observable<any[]> {
-    const params = new HttpParams().set('breeds', breeds);
+   searchDogs(breeds: string, size: number): Observable<any[]> {
+    const queryParams = {
+      breeds: breeds,
+      size: size.toString(), 
+    };
     return this.http.get<DogSearchResponse>(`${this.apiUrl}/dogs/search`, {
-       params,
+       params: queryParams ,
        withCredentials: true
        }).pipe(
         map(response => response.resultIds)
