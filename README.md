@@ -1,27 +1,30 @@
-# FetchTakeHome
+# Fetch take home assignment
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
 
-## Development server
+# Requirements
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Login Page
 
-## Code scaffolding
+The user enters this page and puts in their credentials and clicks submit which will take them to the landing page
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Landing page
 
-## Build
+On this page users first select a breed they wish to see from a dropdown with a type ahead selection. Then users can sort by ascending or descending order for dog names. There is also an option to logout which will invalidate their cookie.
+Users can also favorite dogs they like the most. This will remove them from the shown list and move them to the show favorites modal, which can be opened with a button at the top.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Favorites
 
-## Running unit tests
+This modal will show all the users selected favorite dogs and stop them from showing in the results. They are also able to scroll through all their favorites.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Match
 
-## Running end-to-end tests
+Users can click on the match button at the top of the favorites modal to get a selected dog that matches them the best.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Improvements for the future
+1. Add the ability for users to stay logged in if their cookie is still active
+2. Remove dogs from favorite list
+3. Continue updating styling and improving the look of the page
+4. Add the ability to search by location
+5. Add the option for users to increase or decrease the amount of dogs that appear
+6. Possibly add the option for users to search multiple breeds
