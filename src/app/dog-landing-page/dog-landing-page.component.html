@@ -15,6 +15,8 @@
     </div>
   </div>
 
+  <button (click)="openFavoritesModal()">Show Favorites</button>
+
   <button *ngIf="detailedDogs.length > 0" (click)="toggleSortOrder()">
     Sort {{ isAscending ? 'Descending' : 'Ascending' }}
   </button>
@@ -27,8 +29,14 @@
       <div>
         <h4>{{ dog.name }}</h4>
         <p>{{ dog.breed }}</p>
+        <p>Age: {{ dog.age }}</p>
+        <p>Zip Code: {{ dog.zip_code }}</p>
         <img [src]="dog.img" alt="{{ dog.name }}" />
+        <button (click)="toggleFavorite(dog)">
+          <span [class.favorited]="isFavorite(dog)">⭐</span>
+        </button>
       </div>
     </li>
   </ul>
 </div>
+

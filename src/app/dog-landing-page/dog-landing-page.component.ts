@@ -3,6 +3,8 @@ import { FetchServiceService } from '../fetch-service.service'
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { FavoritesModalComponent } from '../favorites-modal/favorites-modal.component';
 
 @Component({
   selector: 'app-dog-landing-page',
@@ -17,8 +19,11 @@ export class DogLandingPageComponent implements OnInit {
   searchTerm: string = '';
   detailedDogs: any[] = [];
   isAscending: boolean = true;
+  favoriteDogs: any[] = [];
 
-  constructor(private apiService: FetchServiceService) {}
+  constructor(private apiService: FetchServiceService, private dialog: MatDialog) {
+    this.loadFavorites();
+  }
 
   ngOnInit(): void {
     this.apiService.getDogBreeds().subscribe({
@@ -56,6 +61,7 @@ export class DogLandingPageComponent implements OnInit {
         this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
             this.detailedDogs = this.sortDogs(detailedDogs, this.isAscending)
+            console.log(detailedDogs)
           },
           (error) => console.error('Error fetching detailed dogs:', error)
         );
@@ -86,6 +92,35 @@ export class DogLandingPageComponent implements OnInit {
       this.showDropdown = false;
       this.filteredBreeds = [...this.allBreeds];
     }
+  }
+
+  loadFavorites() {
+    const storedFavorites = sessionStorage.getItem('favoriteDogs');
+    this.favoriteDogs = storedFavorites ? JSON.parse(storedFavorites) : [];
+  }
+
+  isFavorite(dogId: string): boolean {
+    return this.favoriteDogs.some((dog) => dog.id === dogId);
+  }
+  
+
+  toggleFavorite(dog: any) {
+    const dogData = { id: dog.id, name: dog.name, img: dog.img }; // Store only necessary data
+  
+    if (this.isFavorite(dog.id)) {
+      this.favoriteDogs = this.favoriteDogs.filter((d) => d.id !== dog.id);
+    } else {
+      this.favoriteDogs.push(dogData);
+    }
+  
+    sessionStorage.setItem('favoriteDogs', JSON.stringify(this.favoriteDogs));
+  }
+  
+
+  openFavoritesModal() {
+    this.dialog.open(FavoritesModalComponent, {
+      data: { favorites: this.favoriteDogs },
+    });
   }
 
 }

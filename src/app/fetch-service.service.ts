@@ -43,4 +43,9 @@ export class FetchServiceService {
     console.log(dogs)
     return this.http.post<any[]>(`${this.apiUrl}/dogs`, dogs, { withCredentials: true });
   }
+
+  matchDogs(favoriteDogIds: any[]): Observable<any> {
+    return this.http.post<string[]>(`${this.apiUrl}/dogs/match`, favoriteDogIds, { withCredentials: true });
+  }
+  
 }
