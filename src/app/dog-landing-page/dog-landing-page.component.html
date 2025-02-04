@@ -1,9 +1,9 @@
-<div class="multi-select-container">
-  <div class="multi-select-input">
+<div class="single-select-container">
+  <div class="single-select-input">
     <input
       [(ngModel)]="searchTerm"
       (ngModelChange)="filterBreeds()"
-      (focus)="toggleDropdown()"
+      (focus)="showDropdown = true"
       placeholder="Search for a breed"
     />
     <div *ngIf="showDropdown" class="dropdown">
@@ -15,19 +15,13 @@
     </div>
   </div>
 
-  <div class="selected-breeds">
-    <ul>
-      <li *ngFor="let breed of selectedBreeds">
-        <span>{{ breed }}</span>
-        <button class="remove-breed" (click)="removeBreed(breed)">X</button>
-      </li>
-    </ul>
+  <div class="selected-breed" *ngIf="selectedBreed">
+    <span>{{ selectedBreed }}</span>
+    <button class="remove-breed" (click)="clearSelection()">X</button>
   </div>
-
-  <button (click)="searchDogs()" [disabled]="selectedBreeds.length === 0">Search</button>
 </div>
 
-<!-- Shows a list of dogs from the search -->
+<!-- Displays dogs from search -->
 <div class="dogs-list" *ngIf="detailedDogs.length > 0">
   <h3>Matching Dogs:</h3>
   <ul>

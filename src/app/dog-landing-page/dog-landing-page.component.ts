@@ -12,10 +12,9 @@ import { startWith, map } from 'rxjs/operators';
 export class DogLandingPageComponent implements OnInit {
   allBreeds: string[] = [];
   filteredBreeds: string[] = [];
-  selectedBreeds: string[] = [];
+  selectedBreed: string | null = null;
   showDropdown = false;
   searchTerm: string = '';
-  matchingDogs: any[] = [];
   detailedDogs: any[] = [];
 
   constructor(private apiService: FetchServiceService) {}
@@ -23,68 +22,52 @@ export class DogLandingPageComponent implements OnInit {
   ngOnInit(): void {
     this.apiService.getDogBreeds().subscribe({
       next: (response: any) => {
-        
         try {
           const breeds = Array.isArray(response) ? response : JSON.parse(response);
-          console.log('Parsed Breeds:', breeds); 
           this.allBreeds = breeds;
           this.filteredBreeds = breeds; 
         } catch (error) {
           console.error('Error parsing breeds response:', error);
         }
-      },
-      error: err => {
-        console.error('Error fetching dog breeds:', err);
       }
     });
   }
 
-  
   filterBreeds(): void {
     this.filteredBreeds = this.allBreeds.filter((breed) =>
       breed.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
-  
-  toggleDropdown(): void {
-    this.showDropdown = !this.showDropdown;
-  }
-
-  
   selectBreed(breed: string): void {
-    if (!this.selectedBreeds.includes(breed)) {
-      this.selectedBreeds.push(breed);
-    }
+    this.selectedBreed = breed;
     this.searchTerm = ''; 
     this.showDropdown = false; 
+    this.searchDogs();
   }
 
-  removeBreed(breed: string): void {
-    this.selectedBreeds = this.selectedBreeds.filter((b) => b !== breed);
+  clearSelection(): void {
+    this.selectedBreed = null;
+    this.detailedDogs = [];
   }
 
-  // Grabs IDs of dogs from search then grabs dogs from their IDs
   searchDogs(): void {
-    const breedsQuery = this.selectedBreeds.join(',');
-    this.apiService.searchDogs(breedsQuery).subscribe(
-      (dogs) => {
-        console.log('Dogs returned from search:', dogs); 
+    if (!this.selectedBreed) return;
 
+    this.apiService.searchDogs(this.selectedBreed).subscribe(
+      (dogIds) => {
+        console.log('Dog IDs returned from search:', dogIds);
         
-        this.apiService.getDetailedDogs(dogs).subscribe(
+        this.apiService.getDetailedDogs(dogIds).subscribe(
           (detailedDogs) => {
             this.detailedDogs = detailedDogs;
-            console.log('Detailed dogs returned from POST:', this.detailedDogs);
+            console.log('Detailed dogs:', this.detailedDogs);
           },
-          (error) => {
-            console.error('Error fetching detailed dogs:', error);
-          }
+          (error) => console.error('Error fetching detailed dogs:', error)
         );
       },
-      (error) => {
-        console.error('Error fetching dogs:', error);
-      }
+      (error) => console.error('Error fetching dogs:', error)
     );
   }
+
 }
